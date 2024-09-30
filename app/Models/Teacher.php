@@ -10,17 +10,24 @@ class Teacher extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-
+        'nombres',
+        'apellidos',
+        'fecha_nacimiento',
+        'dni',
+        'direccion',
+        'telefono',
+        'especialidad',
+        'user_id'
     ];
 
-    public function classrooms()
-    {
-        return $this->hasMany(Classroom::class);
-    }
     public function user()
     {
-        return $this->belongsTo(User::class); // Relación de uno a uno
+        return $this->belongsTo(User::class);
+    }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
     }
 
 }

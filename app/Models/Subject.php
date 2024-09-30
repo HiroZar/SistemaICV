@@ -11,7 +11,27 @@ class Subject extends Model
 
     protected $fillable = [
         'nombre',
-        'descripcion',
-        'nivel',
+        'teacher_id',
+        'grade_id',
     ];
+
+    public function teacher()
+    {
+        return $this->belongsTo(Teacher::class);
+    }
+
+    public function grade()
+    {
+        return $this->belongsTo(Grade::class);
+    }
+
+    public function students()
+    {
+        return $this->belongsToMany(Student::class)->withTimestamps();
+    }
+
+    public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class)->withTimestamps();
+    }
 }

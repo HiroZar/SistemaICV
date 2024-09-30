@@ -10,6 +10,7 @@ class Student extends Model
     use HasFactory;
 
     protected $fillable = [
+        'codigo',
         'nombres',
         'apellidos',
         'fecha_nacimiento',
@@ -17,22 +18,22 @@ class Student extends Model
         'direccion',
         'telefono',
         'nivel',
-        'grado',
-        'seccion',
+        'grade_id',
+        'user_id'
     ];
 
-    public function classroomDetails()
+    public function user()
     {
-        return $this->hasMany(ClassroomDetail::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function attendances()
+    public function grade()
     {
-        return $this->hasMany(Attendance::class);
+        return $this->belongsTo(Grade::class);
     }
 
-    public function grades()
+    public function subjects()
     {
-        return $this->hasMany(Grade::class);
+        return $this->belongsToMany(Subject::class)->withTimestamps();
     }
 }

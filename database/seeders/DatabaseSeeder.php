@@ -14,7 +14,8 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            
+            GradesTableSeeder::class,
+
         ]);
         // \App\Models\User::factory(10)->create();
 

@@ -12,9 +12,9 @@
                 <thead class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-400">
                     <tr>
                         <th scope="col" class="px-6 py-3">Nº</th>
-                        <th scope="col" class="px-6 py-3">Nombre del Curso</th>
-                        <th scope="col" class="px-6 py-3">Descripción</th>
-                        <th scope="col" class="px-6 py-3">Nivel</th>
+                        <th scope="col" class="px-6 py-3">Nombre</th>
+                        <th scope="col" class="px-6 py-3">Nivel / Grado</th>
+                        <th scope="col" class="px-6 py-3">Docente</th>
                         <th scope="col" class="px-6 py-3">Opciones</th>
                     </tr>
                 </thead>
@@ -23,82 +23,35 @@
                     <tr class="bg-white dark:bg-gray-900 hover:bg-gray-50 dark:hover:bg-gray-800 transition duration-200">
                         <td class="px-6 py-4">{{ $loop->iteration }}</td>
                         <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
-                            @if ($subject->nombre)
                                 {{ $subject->nombre }}
-                            @else
-                                nada
-                            @endif
-                        </td>
-                            @if ($subject->descripcion)
-                            <td class="px-6 py-4">
-                            {{ $subject->descripcion}}
-                        </td>
-                        @else
-                        <td class="px-6 py-4 text-gray-400">
-                            Ninguna.
-                        </td>
-                        @endif
-                        <td class="px-6 py-4">
-                            @switch($subject->nivel)
-                                @case(1)
-                                <span class="text-green-500">
-                                    Primer grado
-                                </span>
 
+                        </td>
+                        <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+
+                            @switch($subject->grade->nivel )
+                                @case(1)
+                                    PRIMARIO
                                     @break
                                 @case(2)
-                                <span class="text-green-500">
-                                    Segundo grado
-                                </span>
-                                    @break
-                                @case(3)
-                                <span class="text-green-500">
-                                    Tercer grado
-                                </span>
-                                    @break
-                                @case(4)
-                                <span class="text-green-500">
-                                    Cuarto grado
-                                </span>
-                                    @break
-                                @case(5)
-                                <span class="text-green-500">
-                                    Quinto grado
-                                </span>
-                                    @break
-                                @case(6)
-                                <span class="text-green-500">
-                                    Sexto grado
-                                </span>
-                                    @break
-                                @case(7)
-                                <span class="text-blue-500">
-                                    Primer Año
-                                </span>
-                                    @break
-                                @case(8)
-                                <span class="text-blue-500">
-                                    Segundo Año
-                                </span>
-                                    @break
-                                @case(9)
-                                <span class="text-blue-500">
-                                    Tercer Año
-                                </span>
-                                    @break
-                                @case(10)
-                                <span class="text-blue-500">
-                                    Cuarto Año
-                                </span>
-                                    @break
-                                @case(11)
-                                <span class="text-blue-500">
-                                    Quinto Año
-                                </span>
+                                    SECUNDARIO
                                     @break
                                 @default
                                     Sin nivel
                             @endswitch
+                            / {{ $subject->grade->nombre }}
+
+                        </td>
+                        <td class="px-6 py-4">
+                            @if ($subject->teacher)
+                                {{ $subject->teacher->apellidos }}
+                            @else
+                                <a href="#" class="flex items-center text-sky-600 w-full px-4 py-2 transition duration-75 group hover:text-sky-800  dark:text-white dark:hover:bg-gray-700">
+                                    <svg class="w-6 h-6 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M9 7V2.221a2 2 0 0 0-.5.365L4.586 6.5a2 2 0 0 0-.365.5H9Zm2 0V2h7a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9h5a2 2 0 0 0 2-2Zm-1 9a1 1 0 1 0-2 0v2a1 1 0 1 0 2 0v-2Zm2-5a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1Zm4 4a1 1 0 1 0-2 0v3a1 1 0 1 0 2 0v-3Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="ml-2 underline">Asignar Docente</span> <!-- Agregar un span para un mejor control de espacio -->
+                                </a>
+                            @endif
                         </td>
                         <td class="px-6 py-4">
                                 <button id="opcionesBoton{{ $loop->iteration }}" data-dropdown-toggle="opcion{{ $loop->iteration }}" data-dropdown-trigger="hover"

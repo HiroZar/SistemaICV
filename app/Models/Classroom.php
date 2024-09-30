@@ -10,29 +10,17 @@ class Classroom extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nombre',
-        'nivel',
-        'grado',
+        'grade_id',
         'seccion'
     ];
 
-    public function teachers()
+    public function grade()
     {
-        return $this->belongsToMany(Teacher::class, 'classroom_teacher'); // Asumiendo una relación muchos a muchos
+        return $this->belongsTo(Grade::class);
     }
 
-    public function students()
+    public function subjects()
     {
-        return $this->hasMany(ClassroomDetail::class);
-    }
-
-    public function attendances()
-    {
-        return $this->hasMany(Attendance::class);
-    }
-
-    public function grades()
-    {
-        return $this->hasMany(Grade::class);
+        return $this->belongsToMany(Subject::class)->withTimestamps();
     }
 }

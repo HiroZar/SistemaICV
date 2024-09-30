@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Grade;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 
@@ -13,19 +14,22 @@ class SubjectController extends Controller
     }
 
     public function create(){
-        return view('project.subject.create');
+        $grades = Grade::all();
+        return view('project.subject.create', compact('grades'));
     }
 
     public function store(Request $request){
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:100',
-            'nivel' => 'required|in:1,2,3,4,5,6,7,8,9,10,11',
+            'nivel'  => 'required|exists:grades,id',
+        ],[
+            'nombre.required' => 'El nombre del curso es obligatorio.',
+            'nivel.required'  => 'El nivel es obligatorio.',
+            'nivel.exists'    => 'El grado seleccionado no es válido.',
         ]);
         Subject::create([
-            'nombre' => $request->input('nombre'),
-            'descripcion' => $request->input('descripcion'),
-            'nivel' => $request->input('nivel'),
+            'nombre' => $validated['nombre'],
+            'grade_id' => $validated['nivel'],
         ]);
         return redirect()->route('project.subject.index')->with('success', 'Curso creado exitosamente.');
     }
