@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\Teacher;
 use Illuminate\Http\Request;
 
 class SubjectController extends Controller
 {
     public function index(){
         $subjects = Subject::all();
-        return view('project.subject.index', compact('subjects'));
+        $teachers = Teacher::all();
+        return view('project.subject.index', compact('subjects','teachers'));
     }
 
     public function create(){
@@ -36,18 +38,42 @@ class SubjectController extends Controller
 
     public function edit($id){
         $subject = Subject::findOrFail($id);
-        return view('project.subject.edit', compact('subject'));
+        $grades = Grade::all();
+        return view('project.subject.edit', compact('subject', 'grades'));
     }
 
     public function update(Request $request, $id){
-        $request->validate([
+        $validated = $request->validate([
             'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:100',
             'nivel' => 'required|in:1,2,3,4,5,6,7,8,9,10,11',
         ]);
+
         $subject = Subject::findOrFail($id);
-        $subject->update($request->only(['nombre', 'descripcion', 'nivel']));
+        $subject->update([
+            'nombre' => $validated['nombre'],
+            'grade_id' => $validated['nivel'],
+        ]);
         return redirect()->route('project.subject.index')->with('success', 'Curso actualizado exitosamente.');
+    }
+
+    public function assingteacher(Request $request, $id){
+        $validated = $request->validate([
+            'teacher_id' => 'required|exists:teachers,id',
+        ]);
+
+        $subject = Subject::findOrFail($id);
+        $subject->update([
+            'teacher_id' => $validated['teacher_id'],
+        ]);
+        return redirect()->route('project.subject.index')->with('success', 'Docente asignado correctamente');
+    }
+
+    public function removeteacher(Request $request, $id){
+        $subject = Subject::findOrFail($id);
+        $subject->update([
+            'teacher_id' => null,
+        ]);
+        return redirect()->route('project.subject.index')->with('success', 'Docente removido exitosamente');
     }
 
     public function destroy($id){

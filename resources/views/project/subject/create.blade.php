@@ -25,7 +25,7 @@
                     <select name="nivel" id="nivel"
                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         required>
-                        <option value="" disabled selected>Seleccione el nivel del grado</option>
+                        <option value="" selected>Seleccione el nivel del grado</option>
                         @foreach($grades as $grade)
                         <option value="{{ $grade->id }}">Nivel:
                             @switch($grade->nivel )

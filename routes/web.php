@@ -30,6 +30,8 @@ Route::group(['middleware' => ['auth']], function(){
     Route::get('/subjects/edit/{id}', [SubjectController::class, 'edit'])->name('project.subject.edit');
     Route::put('/subjects/update/{id}', [SubjectController::class, 'update'])->name('project.subject.update');
     Route::delete('/subjects/delete/{id}', [SubjectController::class, 'destroy'])->name('project.subject.destroy');
+    Route::put('/teachers/assingteacher/{id}', [SubjectController::class, 'assingteacher'])->name('project.teacher.assingteacher');
+    Route::put('/teachers/removeteacher/{id}', [SubjectController::class, 'removeteacher'])->name('project.teacher.removeteacher');
 
     Route::get('/teachers', [TeacherController::class, 'index'])->name('project.teacher.index');
     Route::get('/teachers/create', [TeacherController::class, 'create'])->name('project.teacher.create');
