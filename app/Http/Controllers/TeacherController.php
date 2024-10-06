@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Course;
+use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
 use Carbon\Carbon;
@@ -27,7 +29,7 @@ class TeacherController extends Controller
         $request->validate([
             'nombres' => 'required|string|max:100|regex:/^[\p{L} ]+$/u',
             'apellidos' => 'required|string|max:100|regex:/^[\p{L} ]+$/u',
-            'dni' => 'required|digits:8|unique:teachers,dni,'. $request->dni,
+            'dni' => 'required|digits:8|unique:teachers,dni,' . $request->dni,
             'fecha_nacimiento' => 'required|date|before_or_equal:' . Carbon::now()->subYears(18)->toDateString(),
             'direccion' => 'string|max:100',
             'telefono' => 'string|max:15|regex:/^[+0-9\s()-]+$/',
@@ -46,10 +48,10 @@ class TeacherController extends Controller
         $inicialNombre = strtolower(substr($nombres[0], 0, 1));
         $primerApellido = strtolower($apellidos[0]);
         $inicialSegundoApellido = strtolower(substr($apellidos[1] ?? '', 0, 1));
-        $email = $inicialNombre . $primerApellido . $inicialSegundoApellido.'@icv.edu.pe';
+        $email = $inicialNombre . $primerApellido . $inicialSegundoApellido . '@icv.edu.pe';
 
         if (User::where('email', $email)->exists()) {
-            $email = $inicialNombre . $primerApellido . $inicialSegundoApellido. rand(100, 9999) . '@icv.edu.pe';
+            $email = $inicialNombre . $primerApellido . $inicialSegundoApellido . rand(100, 9999) . '@icv.edu.pe';
         }
 
         DB::beginTransaction();
@@ -70,14 +72,33 @@ class TeacherController extends Controller
         return redirect()->route('project.teacher.index')->with('success', 'Docente registrado exitosamente.');
     }
 
-    public function show($id)
-    {
+    public function show($id){
+
         $teacher = Teacher::findOrFail($id);
-        return view('project.teacher.show', compact('teacher'));
+        $subjects = Subject::where('teacher_id', $teacher->id)->get();
+        $subjects = $subjects->sortBy(function ($subject) {
+            return $subject->grade->id;
+        });
+
+        $groupedSubjects = [
+            'primaria' => [],
+            'secundaria' => []
+        ];
+
+        foreach ($subjects as $subject) {
+            $gradeLevel = $subject->grade->nivel;
+            if ($gradeLevel == 1) {
+                $groupedSubjects['primaria'][$subject->grade->id][] = $subject;
+            } elseif ($gradeLevel == 2) {
+                $groupedSubjects['secundaria'][$subject->grade->id][] = $subject;
+            }
+        }
+        return view('project.teacher.show', compact('teacher', 'groupedSubjects'));
     }
 
     public function edit($id)
-    {   $teacher = Teacher::findOrFail($id);
+    {
+        $teacher = Teacher::findOrFail($id);
         return view('project.teacher.edit', compact('teacher'));
     }
 
@@ -100,8 +121,9 @@ class TeacherController extends Controller
         $teacher = Teacher::findOrFail($id);
         $user = User::find($teacher->user_id);
         $user->update([
-            'name' => $request->apellidos . ' ' . $request->nombres,]);
-        $teacher->update($request->only(['nombres','apellidos','fecha_nacimiento','direccion','telefono','especialidad']));
+            'name' => $request->apellidos . ' ' . $request->nombres,
+        ]);
+        $teacher->update($request->only(['nombres', 'apellidos', 'fecha_nacimiento', 'direccion', 'telefono', 'especialidad']));
         return redirect()->route('project.teacher.index')->with('success', 'Docente actualizado exitosamente.');
     }
 

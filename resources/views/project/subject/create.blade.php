@@ -19,32 +19,28 @@
                         placeholder="Ingrese el nombre del curso" value="{{ old('nombre') }}" required>
                 </div>
                 <div>
-                    <label for="descripcion" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Descripción
-                    </label>
-                    <textarea name="descripcion" id="descripcion" rows="4"
-                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-                        placeholder="Ingrese una breve descripción del curso">{{ old('descripcion') }}</textarea>
-                </div>
-                <div>
                     <label for="nivel" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
-                        Nivel
+                        Nivel / Grado
                     </label>
                     <select name="nivel" id="nivel"
                         class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                         required>
-                        <option value="" disabled selected>Seleccione el nivel del curso</option>
-                        <option value="1" {{ old('nivel') == '1' ? 'selected' : '' }}>Primer grado</option>
-                        <option value="2" {{ old('nivel') == '2' ? 'selected' : '' }}>Segundo grado</option>
-                        <option value="3" {{ old('nivel') == '3' ? 'selected' : '' }}>Tercer grado</option>
-                        <option value="4" {{ old('nivel') == '4' ? 'selected' : '' }}>Cuarto grado</option>
-                        <option value="5" {{ old('nivel') == '5' ? 'selected' : '' }}>Quinto grado</option>
-                        <option value="6" {{ old('nivel') == '6' ? 'selected' : '' }}>Sexto grado</option>
-                        <option value="7" {{ old('nivel') == '7' ? 'selected' : '' }}>Primer Año</option>
-                        <option value="8" {{ old('nivel') == '8' ? 'selected' : '' }}>Segundo Año</option>
-                        <option value="9" {{ old('nivel') == '9' ? 'selected' : '' }}>Tercer Año</option>
-                        <option value="10" {{ old('nivel') == '10' ? 'selected' : '' }}>Cuarto Año</option>
-                        <option value="11" {{ old('nivel') == '11' ? 'selected' : '' }}>Quinto Año</option>
+                        <option value="" selected>Seleccione el nivel del grado</option>
+                        @foreach($grades as $grade)
+                        <option value="{{ $grade->id }}">Nivel:
+                            @switch($grade->nivel )
+                                @case(1)
+                                    PRIMARIO
+                                    @break
+                                @case(2)
+                                    SECUNDARIO
+                                    @break
+                                @default
+                                    Sin nivel
+                            @endswitch
+                            - {{ $grade->nombre }}
+                        </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="flex justify-end">

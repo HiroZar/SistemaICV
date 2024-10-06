@@ -13,9 +13,6 @@ return new class extends Migration
     {
         Schema::create('classrooms', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
-            $table->foreignId('student_id')->nullable()->constrained()->onDelete('set null');
-            $table->foreignId('subject_id')->nullable()->constrained()->onDelete('set null');
             $table->foreignId('grade_id')->nullable()->constrained()->onDelete('set null');
             $table->char('seccion', 1)->nullable();
             $table->timestamps();

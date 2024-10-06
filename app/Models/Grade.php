@@ -13,4 +13,18 @@ class Grade extends Model
         'nombre',
         'nivel',
     ];
+    public function students()
+    {
+        return $this->hasMany(Student::class);
+    }
+
+    public function subjects()
+    {
+        return $this->hasMany(Subject::class);
+    }
+
+    public function classrooms()
+    {
+        return $this->hasMany(Classroom::class);
+    }
 }
