@@ -4,7 +4,10 @@ use App\Http\Controllers\ClassroomController;
 use App\Http\Controllers\StudentController;
 use App\Http\Controllers\SubjectController;
 use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\UserController;
+use Illuminate\Foundation\Auth\User;
 use Illuminate\Support\Facades\Route;
+use Laravel\Jetstream\Http\Controllers\Inertia\UserProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,7 +25,14 @@ Route::get('/', function () {
 });
 
 Route::group(['middleware' => ['auth']], function(){
+
+    Route::get('/user/profile/edit', [UserProfileController::class, 'show'])
+        ->name('profile.edit');
+
     Route::get('/my', [ClassroomController::class, 'index'])->name('project.classroom.index');
+
+    Route::get('/user/viewprofile', [UserController::class, 'showProfileTeacher'])->name('project.settings.show');
+
 
     Route::get('/subjects', [SubjectController::class, 'index'])->name('project.subject.index');
     Route::get('/subjects/create', [SubjectController::class, 'create'])->name('project.subject.create');
@@ -32,6 +42,7 @@ Route::group(['middleware' => ['auth']], function(){
     Route::delete('/subjects/delete/{id}', [SubjectController::class, 'destroy'])->name('project.subject.destroy');
     Route::put('/teachers/assingteacher/{id}', [SubjectController::class, 'assingteacher'])->name('project.teacher.assingteacher');
     Route::put('/teachers/removeteacher/{id}', [SubjectController::class, 'removeteacher'])->name('project.teacher.removeteacher');
+    Route::get('/teacher/subjects', [SubjectController::class, 'teachersubjects'])->name('project.teacher.subjects');
 
     Route::get('/teachers', [TeacherController::class, 'index'])->name('project.teacher.index');
     Route::get('/teachers/create', [TeacherController::class, 'create'])->name('project.teacher.create');

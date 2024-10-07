@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Teacher;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -24,6 +25,17 @@ class UserSeeder extends Seeder
             'name' => 'Dalila Salazar',
             'email' => 'dsalazart@unitru.edu.pe',
             'password' => Hash::make('12345678'),
+        ]);
+
+        Teacher::create([
+            'user_id' => 2,
+            'nombres' => 'Dalila',
+            'apellidos' => 'Salazar',
+            'fecha_nacimiento' => '1997-10-01',
+            'dni' => '93993838',
+            'direccion' => 'Jasmines 120',
+            'telefono' => '928384747',
+            'especialidad' => 'Sistemas',
         ]);
     }
 }

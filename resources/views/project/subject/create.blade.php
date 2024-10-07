@@ -19,6 +19,14 @@
                         placeholder="Ingrese el nombre del curso" value="{{ old('nombre') }}" required>
                 </div>
                 <div>
+                    <label for="abreviado" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
+                        Nombre abreviado del curso
+                    </label>
+                    <input type="text" name="abreviado" id="abreviado"
+                        class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-sky-500 focus:border-sky-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                        placeholder="Ingrese el nombre abreviado del curso" value="{{ old('abreviado') }}" required>
+                </div>
+                <div>
                     <label for="nivel" class="block text-sm font-medium text-gray-700 dark:text-gray-300">
                         Nivel / Grado
                     </label>

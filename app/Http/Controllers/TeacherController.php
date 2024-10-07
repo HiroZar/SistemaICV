@@ -2,17 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Course;
+
 use App\Models\Subject;
 use App\Models\Teacher;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
+
 class TeacherController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('permission:teacher.index', ['only' => ['index']]);
+        $this->middleware('permission:teacher.create', ['only' => ['create', 'store']]);
+        $this->middleware('permission:teacher.edit', ['only' => ['edit', 'update']]);
+        $this->middleware('permission:teacher.destroy', ['only' => ['destroy']]);
+        $this->middleware('permission:teacher.show', ['only' => ['show']]);
+    }
+
     public function index()
     {
         $teachers = Teacher::with('user')->get();
@@ -72,7 +84,13 @@ class TeacherController extends Controller
         return redirect()->route('project.teacher.index')->with('success', 'Docente registrado exitosamente.');
     }
 
-    public function show($id){
+    public function show($id)
+    {
+        $user = Auth::user();
+        if ($user->hasRole('teacher')) {
+            $id = $user->teacher->id;
+        }
+
 
         $teacher = Teacher::findOrFail($id);
         $subjects = Subject::where('teacher_id', $teacher->id)->get();
@@ -95,6 +113,8 @@ class TeacherController extends Controller
         }
         return view('project.teacher.show', compact('teacher', 'groupedSubjects'));
     }
+
+    
 
     public function edit($id)
     {
