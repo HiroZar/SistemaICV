@@ -11,7 +11,6 @@
                             Dashboard
                         </a>
                     </li>
-                    @if (Auth::user()->hasRole('admin'))
                     <li>
                         <div class="flex items-center">
                             <svg class="rtl:rotate-180 w-3 h-3  text-gray-400 px-1 " aria-hidden="true"
@@ -19,45 +18,27 @@
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
                                     stroke-width="2" d="m1 9 4-4-4-4" />
                             </svg>
-                            <a href="{{ route('project.teacher.index') }}"
-                                class="ms-1 text-sm font-medium text-gray-500 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Docente</a>
-                        </div>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="rtl:rotate-180 w-3 h-3  text-gray-400 px-1 " aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                            <a href="{{ route('project.teacher.show', $teacher->id) }}"
-                                class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Detalle</a>
-                        </div>
-                    </li>
-                    @endif
-                    @if (Auth::user()->hasRole('teacher'))
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="rtl:rotate-180 w-3 h-3  text-gray-400 px-1 " aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                    stroke-width="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                            <a href="{{ route('project.teacher.show', $teacher->id) }}"
+                            <a href="{{ route('project.settings.show') }}"
                                 class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2 dark:text-gray-400 dark:hover:text-white">Perfil</a>
                         </div>
                     </li>
-                    @endif
                 </ol>
             </nav>
-            <div class="flex items-center space-x-4 my-4">
-                <img src="{{ $teacher->user->profile_photo_url }}"
-                    alt="{{ $teacher->nombres }} {{ $teacher->apellidos }}" class="w-16 h-16 rounded-full">
-                <div class="ml-2 py-2">
-                    <h2 class="text-2xl font-bold ml-2">{{ $teacher->nombres }} {{ $teacher->apellidos }}</h2>
-                    <p class="text-gray-700 font-bold ml-2">{{ $teacher->especialidad }}</p>
+            <div class="flex items-center justify-between my-4">
+                <div class="flex items-center space-x-4">
+                    <img src="{{ $teacher->user->profile_photo_url }}"
+                        alt="{{ $teacher->nombres }} {{ $teacher->apellidos }}" class="w-16 h-16 rounded-full">
+                    <div class="ml-2 py-2">
+                        <h2 class="text-2xl font-bold">{{ $teacher->nombres }} {{ $teacher->apellidos }}</h2>
+                        <p class="text-gray-700 font-bold">{{ $teacher->especialidad }}</p>
+                    </div>
                 </div>
+                <a href="{{ route('profile.show') }}"
+                    class="px-6 py-3 bg-gradient-to-r from-sky-400 to-sky-600 rounded-xl font-semibold text-white hover:from-sky-600 hover:to-sky-800 transition-all duration-300 shadow-lg">
+                    Editar
+                </a>
             </div>
+
             <div class="items-center space-x-4 p-4 my-4 border rounded-lg">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>

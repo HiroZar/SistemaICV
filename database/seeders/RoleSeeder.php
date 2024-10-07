@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
@@ -14,20 +15,33 @@ class RoleSeeder extends Seeder
      */
     public function run(): void
     {
-        $Role1 = Role::create(['name' => 'admin']);
-        $Role2 = Role::create(['name' => 'teacher']);
-        $Role2 = Role::create(['name' => 'student']);
 
-        Permission::create(['name' => 'teacher.update']);
-        Permission::create(['name' => 'teacher.create']);
-        Permission::create(['name' => 'teacher.show']);
-        Permission::create(['name' => 'teacher.destroy']);
-
-        Permission::create(['name' => 'subject.update']);
+        Permission::create(['name' => 'subject.index']);
         Permission::create(['name' => 'subject.create']);
-        Permission::create(['name' => 'subject.show']);
+        Permission::create(['name' => 'subject.edit']);
         Permission::create(['name' => 'subject.destroy']);
         Permission::create(['name' => 'subject.assingteacher']);
         Permission::create(['name' => 'subject.removeteacher']);
+
+        Permission::create(['name' => 'classroom.list']);
+        Permission::create(['name' => 'classroom.create']);
+        Permission::create(['name' => 'classroom.edit']);
+        Permission::create(['name' => 'classroom.destroy']);
+
+        Permission::create(['name' => 'teacher.index']);
+        Permission::create(['name' => 'teacher.create']);
+        Permission::create(['name' => 'teacher.edit']);
+        Permission::create(['name' => 'teacher.destroy']);
+        Permission::create(['name' => 'teacher.show']);
+
+        $admin = Role::create(['name' => 'admin']);
+        $admin->givePermissionTo(Permission::all());
+        $teacher = Role::create(['name' => 'teacher']);
+        $teacher->givePermissionTo([
+            'teacher.show',
+        ]);
+
+        User::find(1)->assignRole('admin');
+        User::find(2)->assignRole('teacher');
     }
 }

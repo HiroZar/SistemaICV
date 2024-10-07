@@ -21,7 +21,7 @@
         <x-banner />
 
         <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
-            @livewire('navigation-menu')
+            @livewire('navigationmenu')
 
             <!-- Page Heading -->
             @if (isset($header))
@@ -39,7 +39,7 @@
         </div>
 
         @stack('modals')
-        
+
         @livewireScripts
     </body>
 </html>
